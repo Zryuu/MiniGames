@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" uploadOnCheckin="fa5e9d35-3162-4ea5-83a6-bdd4c78cade7" remoteFilesAllowedToDisappearOnAutoupload="false">
+    <serverData>
+      <paths name="locrepo">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+    <option name="myUploadOnCheckinName" value="locrepo" />
+  </component>
+</project>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="Dalamud.Plugin.Bootstrap.targets"/>
+
+  <PropertyGroup>
+    <Version>0.0.0.1</Version>
+    <Description>A sample plugin.</Description>
+    <PackageProjectUrl>https://github.com/goatcorp/SamplePlugin</PackageProjectUrl>
+    <PackageLicenseExpression>AGPL-3.0-or-later</PackageLicenseExpression>
+    <IsPackable>true</IsPackable>
+    <LangVersion>preview</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' " />
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' " />
+
+  <ItemGroup>
+    <Content Include="..\Data\goat.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Visible>false</Visible>
+    </Content>
+      <Content Include="..\Data\DOWN.png">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+          <Visible>false</Visible>
+      </Content>  
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Assets\BlackJack\" />
+    <Folder Include="Assets\MineSweaper\" />
+    <Folder Include="Assets\PuzzlePanel\" />
+    <Folder Include="Assets\RockPaperScissors\" />
+    <Folder Include="Games\MineSweaper\" />
+    <Folder Include="Games\RockPaperScissors\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Games\Tetris\Assets\Background.png" />
+    <None Remove="Games\Tetris\Assets\Block-Empty.png" />
+    <None Remove="Games\Tetris\Assets\Block-I.png" />
+    <None Remove="Games\Tetris\Assets\Block-J.png" />
+    <None Remove="Games\Tetris\Assets\Block-L.png" />
+    <None Remove="Games\Tetris\Assets\Block-O.png" />
+    <None Remove="Games\Tetris\Assets\Block-S.png" />
+    <None Remove="Games\Tetris\Assets\Block-T.png" />
+    <None Remove="Games\Tetris\Assets\Block-Z.png" />
+    <None Remove="Games\Tetris\Assets\Icon.ico" />
+    <None Remove="Games\Tetris\Assets\TileBlue.png" />
+    <None Remove="Games\Tetris\Assets\TileCyan.png" />
+    <None Remove="Games\Tetris\Assets\TileEmpty.png" />
+    <None Remove="Games\Tetris\Assets\TileGreen.png" />
+    <None Remove="Games\Tetris\Assets\TileOrange.png" />
+    <None Remove="Games\Tetris\Assets\TilePurple.png" />
+    <None Remove="Games\Tetris\Assets\TileRed.png" />
+    <None Remove="Games\Tetris\Assets\TileYellow.png" />
+  </ItemGroup>
+</Project>
