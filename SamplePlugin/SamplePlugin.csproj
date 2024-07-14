@@ -15,17 +15,18 @@
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' " />
 
-  <ItemGroup>
-    <Content Include="..\Data\goat.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Visible>false</Visible>
-    </Content>
-      <Content Include="..\Data\DOWN.png">
-          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-          <Visible>false</Visible>
-      </Content>  
-  </ItemGroup>
+    <ItemGroup>
+        <content Include="Assets\Menu\PuzzlePanelMenu.png">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </content>
+    </ItemGroup>
 
+    <ItemGroup>
+    <content Include="Assets\Menu\MemoryMatchMenu.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </content>
+    </ItemGroup>
+    
   <ItemGroup>
     <Folder Include="Assets\BlackJack\" />
     <Folder Include="Assets\MineSweaper\" />
