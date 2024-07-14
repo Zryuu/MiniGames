@@ -1,8 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <Import Project="Dalamud.Plugin.Bootstrap.targets"/>
 
   <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
     <Version>0.0.0.1</Version>
     <Description>A sample plugin.</Description>
     <PackageProjectUrl>https://github.com/goatcorp/SamplePlugin</PackageProjectUrl>
@@ -67,5 +68,9 @@
     <Resource Include="Assets\Menu\MemoryMatchMenu.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Tools\OtterGui\OtterGui.csproj" />
   </ItemGroup>
 </Project>

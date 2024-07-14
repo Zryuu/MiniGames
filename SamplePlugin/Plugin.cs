@@ -20,7 +20,7 @@ public sealed class Plugin : IDalamudPlugin
 
     public readonly WindowSystem WindowSystem = new("SamplePlugin");
     private ConfigWindow ConfigWindow { get; init; }
-    private MainWindow MainWindow { get; init; }
+    private Interface Interface { get; init; }
     private PPWindow PpWindow { get; set; }
     
     
@@ -30,11 +30,11 @@ public sealed class Plugin : IDalamudPlugin
         Configuration = PluginInterface.GetPluginConfig() as Configuration ?? new Configuration();
         
         ConfigWindow = new ConfigWindow(this);
-        MainWindow = new MainWindow(this);
+        Interface = new Interface(this);
         PpWindow = new PPWindow(this);
         
         WindowSystem.AddWindow(ConfigWindow);
-        WindowSystem.AddWindow(MainWindow);
+        WindowSystem.AddWindow(Interface);
         WindowSystem.AddWindow(PpWindow);
         
         
@@ -55,7 +55,7 @@ public sealed class Plugin : IDalamudPlugin
         WindowSystem.RemoveAllWindows();
 
         ConfigWindow.Dispose();
-        MainWindow.Dispose();
+        Interface.Dispose();
         
         
     }
@@ -68,6 +68,6 @@ public sealed class Plugin : IDalamudPlugin
     private void DrawUI() => WindowSystem.Draw();
 
     public void ToggleConfigUI() => ConfigWindow.Toggle();
-    public void ToggleMainUI() => MainWindow.Toggle();
+    public void ToggleMainUI() => Interface.Toggle();
     public void TogglePPUI() => PpWindow.Toggle();
 }
