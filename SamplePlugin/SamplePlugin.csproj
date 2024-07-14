@@ -56,4 +56,16 @@
     <None Remove="Games\Tetris\Assets\TileRed.png" />
     <None Remove="Games\Tetris\Assets\TileYellow.png" />
   </ItemGroup>
+
+  <ItemGroup>
+    <resource Include="Assets\Menu\PuzzlePanelMenu.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </resource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\Menu\MemoryMatchMenu.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
 </Project>
