@@ -10,22 +10,24 @@ using SamplePlugin.Games.PuzzlePanel;
 
 namespace SamplePlugin.Windows;
 
-public class PPInterface : Window, IDisposable
+public class PpInterface : Window, IDisposable
 {
+    private Plugin plugin;
+    private PPBoard board;
+    private PPCard[] cards;
+    private PPCard[] displayCards;
     
-    private PPBoard Board;
-    private PPCard[] Cards;
-    private PPCard[] DisplayCards;
     private bool[] buttonClicked;
-    private Vector2 defaultSize = new Vector2(600, 400);
-    private uint currentSound, Soundindex;
+    private uint currentSound, soundindex;
     private float boardSpacing, padding, buttonSize, totalWidth, totalHeight, windowWidth, windowHeight;
-    private int columns, rows, boardsize;
+    private int columns, rows, boardsize, score;
     
     
-    public PPInterface(Plugin plugin)
+    public PpInterface(Plugin plugin)
         : base("Puzzle Panel", ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoScrollWithMouse)
     {
+        this.plugin = plugin;
+        
         SizeConstraints = new WindowSizeConstraints
         {
             MinimumSize = new Vector2(506, 736),
@@ -33,12 +35,12 @@ public class PPInterface : Window, IDisposable
         };
         
         boardsize = 6;
-        Board = new PPBoard(false, boardsize, boardsize);
+        board = new PPBoard(false, boardsize, boardsize);
         
         boardSpacing = 20.0f;
         padding = 10f;
         buttonSize = 40f;
-        Soundindex = 0;
+        soundindex = 0;
         
         InitGame();
     }
@@ -48,27 +50,27 @@ public class PPInterface : Window, IDisposable
     {
         
         
-        Board.SetBoardSize(boardsize, boardsize);
-        Cards = new PPCard[Board.Cards.Length];
-        DisplayCards = new PPCard[Board.DisplayCards.Length];
-        buttonClicked = new bool[Board.Cards.Length];
+        board.SetBoardSize(boardsize, boardsize);
+        cards = new PPCard[board.Cards.Length];
+        displayCards = new PPCard[board.DisplayCards.Length];
+        buttonClicked = new bool[board.Cards.Length];
 
-        columns = Board.Width;
-        rows = Board.Height;
+        columns = board.Width;
+        rows = board.Height;
         
-        for (int i = 0; i < Board.Cards.Length; i++)
+        for (int i = 0; i < board.Cards.Length; i++)
         {
-            Cards[i] = Board.GetCardFromCards(i);
+            cards[i] = board.GetCardFromCards(i);
             buttonClicked[i] = false;
         }
         
-        for (int i = 0; i < Board.DisplayCards.Length; i++)
+        for (int i = 0; i < board.DisplayCards.Length; i++)
         {
-            DisplayCards[i] = Board.GetDisplayCardFromDisplayCards(i);
+            displayCards[i] = board.GetDisplayCardFromDisplayCards(i);
         }
         
-        Board.SetDisplayCards();
-        Board.SetPlayerCardsInit();
+        board.SetDisplayCards();
+        board.SetPlayerCardsInit();
         
                 totalWidth = columns * (buttonSize + padding);
         totalHeight = rows * (buttonSize + padding);
@@ -94,15 +96,15 @@ public class PPInterface : Window, IDisposable
             ImGui.SetCursorPos(ImGuiHelpers.ScaledVector2(xPos, yPos));
             ImGui.PushID(i);
 
-            if (ImGui.ImageButton(Cards[i].GetTex().GetWrapOrEmpty().ImGuiHandle, new Vector2(buttonSize, buttonSize)))
+            if (ImGui.ImageButton(cards[i].GetTex().GetWrapOrEmpty().ImGuiHandle, new Vector2(buttonSize, buttonSize)))
             {
-                Cards[i].SwapFaceSide();
+                cards[i].SwapFaceSide();
                 UIModule.PlaySound(currentSound);
                 
-                int[] adjacentIndices = Board.GetAdjacentCardIndices(i);
+                int[] adjacentIndices = board.GetAdjacentCardIndices(i);
                 foreach (int adjacentIndex in adjacentIndices)
                 {
-                    Cards[adjacentIndex].SwapFaceSide();
+                    cards[adjacentIndex].SwapFaceSide();
                 }
             }
             
@@ -120,7 +122,7 @@ public class PPInterface : Window, IDisposable
             float yPos = offY + ((i / columns) * (buttonSize + padding));
         
             ImGui.SetCursorPos(ImGuiHelpers.ScaledVector2(xPos, yPos));
-            ImGui.ImageButton(DisplayCards[i].GetTex().GetWrapOrEmpty().ImGuiHandle,
+            ImGui.ImageButton(displayCards[i].GetTex().GetWrapOrEmpty().ImGuiHandle,
                               new Vector2(buttonSize, buttonSize));
         }
     }
@@ -137,22 +139,22 @@ public class PPInterface : Window, IDisposable
         float offsetY2 = offsetY1 + totalHeight + boardSpacing;
         
 
-        if (!Board.CheckBoardsMatch())
+        if (!board.CheckBoardsMatch())
         {
             if (ImGui.Button($"Sound Effect: {currentSound}"))
             {
                 
-                Soundindex++;
-                currentSound = Soundindex;
+                soundindex++;
+                currentSound = soundindex;
                 
                 //  Some reason this shit doesnt work if merged
-                if (Soundindex == 18)
+                if (soundindex == 18)
                 {
-                    Soundindex = 22;
+                    soundindex = 22;
                 }
-                if (Soundindex == 72)
+                if (soundindex == 72)
                 {
-                    Soundindex = 0;
+                    soundindex = 0;
                 }
                 UIModule.PlaySound(currentSound);
                 
@@ -196,6 +198,8 @@ public class PPInterface : Window, IDisposable
 
             if (ImGui.Button("Restart?"))
             {
+                score = boardsize * 1000;
+                plugin.OnGameEnd(EGame.PuzzlePanel, score);
                 InitGame();
             }
         }

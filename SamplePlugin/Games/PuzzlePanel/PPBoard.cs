@@ -4,6 +4,8 @@ using System.Linq;
 using System.Numerics;
 using Lumina.Excel.GeneratedSheets2;
 using SamplePlugin.Games.PuzzlePanel;
+using SamplePlugin;
+using SamplePlugin.Windows;
 
 namespace SamplePlugin.Games.PuzzlePanel;
 
@@ -154,6 +156,8 @@ public class PPBoard()
                 return false;
             }
         }
+
+        
         return true;
     }
     

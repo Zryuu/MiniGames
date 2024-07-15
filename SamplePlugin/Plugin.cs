@@ -1,10 +1,12 @@
-﻿using Dalamud.Game.Command;
+﻿using System;
+using Dalamud.Game.Command;
 using Dalamud.IoC;
 using Dalamud.Plugin;
 using System.IO;
 using Dalamud.Data;
 using Dalamud.Interface.Windowing;
 using Dalamud.Plugin.Services;
+using ImGuiNET;
 using SamplePlugin.Windows;
 
 namespace SamplePlugin;
@@ -13,15 +15,17 @@ public sealed class Plugin : IDalamudPlugin
 {
     [PluginService] internal static IDalamudPluginInterface PluginInterface { get; private set; } = null!;
     
+    public HighScoreManager HighScoreManager { get; private set; }
     
     private const string PPComand = "/PP";
+    private readonly string? LocPlayerName;
 
     public Configuration Configuration { get; init; }
 
     public readonly WindowSystem WindowSystem = new("SamplePlugin");
     private ConfigWindow ConfigWindow { get; init; }
     private Interface Interface { get; init; }
-    private PPInterface PpInterface { get; set; }
+    private PpInterface PpInterface { get; set; }
     
     
     public Plugin()
@@ -29,9 +33,11 @@ public sealed class Plugin : IDalamudPlugin
         PluginInterface.Create<Services>();
         Configuration = PluginInterface.GetPluginConfig() as Configuration ?? new Configuration();
         
+        HighScoreManager = new HighScoreManager("Scores.json");
+        
         ConfigWindow = new ConfigWindow(this);
         Interface = new Interface(this);
-        PpInterface = new PPInterface(this);
+        PpInterface = new PpInterface(this);
         
         WindowSystem.AddWindow(ConfigWindow);
         WindowSystem.AddWindow(Interface);
@@ -47,8 +53,21 @@ public sealed class Plugin : IDalamudPlugin
 
         // Adds another button that is doing the same but for the main ui of the plugin
         PluginInterface.UiBuilder.OpenMainUi += ToggleMainUI;
+
+        LocPlayerName = Services.ClientState.LocalPlayer!.Name.ToString();
+        
+    }
+
+    public string? GetPlayerName()
+    {
+        var name = LocPlayerName ?? "Player Name Null";
+        return name;
     }
     
+    public void OnGameEnd(EGame game, int score)
+    {
+        HighScoreManager.AddHighScore(game, GetPlayerName() ,score);
+    }
     
     public void Dispose()
     {

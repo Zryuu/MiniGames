@@ -27,16 +27,13 @@ public class Interface : Window, IDisposable
     private readonly Plugin plugin;
     private string? menuImgPp;
     private string? menuImgMm;
-    
+
     //  Constructor
     public Interface(Plugin plugin)
         : base(PluginName +" Menu##", ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoScrollWithMouse)
     {
-        
-
         this.plugin = plugin;
         GetMenuImgPath();
-
     }
 
     public void GetMenuImgPath()
@@ -88,18 +85,46 @@ public class Interface : Window, IDisposable
                 }
                 if (ImGui.IsItemHovered())
                 {
-                    ImGui.SetTooltip("Memory Match:\n Remember and Match the sequence.");
+                    ImGui.SetTooltip("Remember and Match the sequence.");
                 }
                 
                 break;
         }
     }
 
+    public void GetGameScores()
+    {
+        foreach (EGame game in Enum.GetValues(typeof(EGame)))
+        {
+            var scores = plugin.HighScoreManager.GetHighScores(game);
+            ImGui.Text(game.ToString());
 
+            if (scores.Count == 0)
+            {
+                ImGui.Text("No high scores yet.");
+            }
+            else
+            {
+                foreach (var score in scores)
+                {
+                    ImGui.Text($"{score.PlayerName}: {score.Score}");
+                }
+            }
+
+            ImGui.Spacing();
+        }
+    }
+    
     public void TabHighScores()
     {
+        ImGui.BeginChild("High Scores");
+        
         using var id = ImRaii.PushId("HighScores");
         ImGuiUtil.HoverTooltip("High-score for each game.");
+
+        GetGameScores();
+
+        ImGui.EndChild();
     }
     
     public void TabSettings()
@@ -171,5 +196,7 @@ public class Interface : Window, IDisposable
     public override void Draw()
     {
         DrawTabs();
+        
+        Services.Log.Information(plugin.GetPlayerName()!);
     }
 }
