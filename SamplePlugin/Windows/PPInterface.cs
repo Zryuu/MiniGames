@@ -10,7 +10,7 @@ using SamplePlugin.Games.PuzzlePanel;
 
 namespace SamplePlugin.Windows;
 
-public class PPWindow : Window, IDisposable
+public class PPInterface : Window, IDisposable
 {
     
     private PPBoard Board;
@@ -23,7 +23,7 @@ public class PPWindow : Window, IDisposable
     private int columns, rows, boardsize;
     
     
-    public PPWindow(Plugin plugin)
+    public PPInterface(Plugin plugin)
         : base("Puzzle Panel", ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoScrollWithMouse)
     {
         SizeConstraints = new WindowSizeConstraints

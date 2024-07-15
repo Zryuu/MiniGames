@@ -14,9 +14,10 @@ enum ECardFace
 public class MMCard
 {
     private ECardFace cardFace;
-    private readonly ISharedImmediateTexture MushroomTex;
-    private readonly ISharedImmediateTexture FeatherTex;
-
+    private readonly ISharedImmediateTexture BlueFace;
+    private readonly ISharedImmediateTexture RedFace;
+    private readonly ISharedImmediateTexture GreenFace;
+    private readonly ISharedImmediateTexture YellowFace;
     
     
     

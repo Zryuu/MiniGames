@@ -107,9 +107,16 @@ public class PPBoard()
                 rand = random.Next(100);
                 PPCard currentCard = DisplayCards[index];
 
-                if (rand > 50)
+                if (rand > 75)
                 {
                     currentCard.SwapFaceSide();
+                    
+                    int[] adjacentIndices = GetAdjacentCardIndices(index);
+                    Services.Log.Information(index.ToString());
+                    foreach (int adjacentIndex in adjacentIndices)
+                    {
+                        Cards[adjacentIndex].SwapFaceSide();
+                    }
                 }
             }
         }
