@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Dalamud.Game.Command;
 using Dalamud.IoC;
 using Dalamud.Plugin;
@@ -26,8 +27,9 @@ public sealed class Plugin : IDalamudPlugin
     private ConfigWindow ConfigWindow { get; init; }
     private Interface Interface { get; init; }
     private PpInterface PpInterface { get; set; }
-    
-    
+    private MMInterface MmInterface { get; set; }
+
+
     public Plugin()
     {
         PluginInterface.Create<Services>();
@@ -38,12 +40,14 @@ public sealed class Plugin : IDalamudPlugin
         ConfigWindow = new ConfigWindow(this);
         Interface = new Interface(this);
         PpInterface = new PpInterface(this);
+        MmInterface = new MMInterface(this);
         
         WindowSystem.AddWindow(ConfigWindow);
         WindowSystem.AddWindow(Interface);
         WindowSystem.AddWindow(PpInterface);
-        
-        
+        WindowSystem.AddWindow(MmInterface);
+
+        InitializeCommands();
 
         PluginInterface.UiBuilder.Draw += DrawUI;
 
@@ -58,10 +62,42 @@ public sealed class Plugin : IDalamudPlugin
         
     }
 
+    //  Gets Local Players name for Highscore
     public string? GetPlayerName()
     {
         var name = LocPlayerName ?? "Player Name Null";
         return name;
+    }
+    
+    public const string MenuCommand = "/MGM";
+    public const string PuzzlePanel = "/PP";
+    public const string MemoryMatch = "/MM";
+    
+    private readonly Dictionary<string, CommandInfo> _commands = new();
+
+    //  Init Commands
+    private void InitializeCommands()
+    {
+        _commands["/MGM"] = new CommandInfo(MenuCI)
+        {
+            HelpMessage = "Use to open the MiniGame Menu.",
+            ShowInHelp = true,
+                
+        };
+        _commands["/PP"] = new CommandInfo(PPCI)
+        {
+            HelpMessage = "Use to open the MiniGame Menu.",
+            ShowInHelp = true,
+                
+        };
+
+        foreach (var (command, info) in _commands)
+            Services.CommandManager.AddHandler(command, info);
+    }
+    private void DisposeCommands()
+    {
+        foreach (var command in _commands.Keys)
+            Services.CommandManager.RemoveHandler(command);
     }
     
     public void OnGameEnd(EGame game, int score)
@@ -72,21 +108,28 @@ public sealed class Plugin : IDalamudPlugin
     public void Dispose()
     {
         WindowSystem.RemoveAllWindows();
-
         ConfigWindow.Dispose();
         Interface.Dispose();
+        DisposeCommands();
         
         
     }
 
-    private void OnCommand(string command, string args)
-    {   
-        TogglePPUI();
-    }
+/*    
+********************************************************    
+**                                                    **  
+ *              COMMANDS                              *  
+**                                                    **  
+********************************************************  
+*/  
 
     private void DrawUI() => WindowSystem.Draw();
-
+    
+    private void MenuCI(string command, string args) { ToggleMainUI(); }
+    private void PPCI(string command, string args) { TogglePPUI(); }
+    private void MMCI(string command, string args) { ToggleMMUI(); }
     public void ToggleConfigUI() => ConfigWindow.Toggle();
     public void ToggleMainUI() => Interface.Toggle();
     public void TogglePPUI() => PpInterface.Toggle();
+    public void ToggleMMUI() => MmInterface.Toggle();
 }

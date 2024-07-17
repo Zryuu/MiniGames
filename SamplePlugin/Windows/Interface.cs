@@ -23,8 +23,8 @@ public class Interface : Window, IDisposable
     private const float MenuImgPaddingX  = 20f;
     private const float MenuImgPaddingY  = 10f;
     private const float MenuImgSize      = 256f;
-    
-    private readonly Plugin plugin;
+
+    public readonly Plugin Plugin;
     private string? menuImgPp;
     private string? menuImgMm;
 
@@ -32,10 +32,15 @@ public class Interface : Window, IDisposable
     public Interface(Plugin plugin)
         : base(PluginName +" Menu##", ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoScrollWithMouse)
     {
-        this.plugin = plugin;
+        this.Plugin = plugin;
         GetMenuImgPath();
     }
 
+    public Plugin GetPlugin()
+    {
+        return Plugin;
+    }
+    
     public void GetMenuImgPath()
     {
         //  Puzzle Panel
@@ -64,7 +69,7 @@ public class Interface : Window, IDisposable
                 if (ImGui.ImageButton(Services.TextureProvider.GetFromFile(menuImgPp!).GetWrapOrEmpty().ImGuiHandle,
                                       ImGuiHelpers.ScaledVector2(MenuImgSize, MenuImgSize)))
                 {
-                    plugin.TogglePPUI();
+                    Plugin.TogglePPUI();
                 }
 
                 if (ImGui.IsItemHovered())
@@ -81,7 +86,7 @@ public class Interface : Window, IDisposable
                 if (ImGui.ImageButton(Services.TextureProvider.GetFromFile(menuImgMm!).GetWrapOrEmpty().ImGuiHandle,
                                       ImGuiHelpers.ScaledVector2(MenuImgSize, MenuImgSize)))
                 {
-                    
+                    Plugin.ToggleMMUI();
                 }
                 if (ImGui.IsItemHovered())
                 {
@@ -96,7 +101,7 @@ public class Interface : Window, IDisposable
     {
         foreach (EGame game in Enum.GetValues(typeof(EGame)))
         {
-            var scores = plugin.HighScoreManager.GetHighScores(game);
+            var scores = Plugin.HighScoreManager.GetHighScores(game);
             ImGui.Text(game.ToString());
 
             if (scores.Count == 0)
@@ -196,7 +201,5 @@ public class Interface : Window, IDisposable
     public override void Draw()
     {
         DrawTabs();
-        
-        Services.Log.Information(plugin.GetPlayerName()!);
     }
 }
