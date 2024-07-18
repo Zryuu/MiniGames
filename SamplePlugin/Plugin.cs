@@ -5,6 +5,7 @@ using Dalamud.IoC;
 using Dalamud.Plugin;
 using System.IO;
 using Dalamud.Data;
+using Dalamud.Game.Addon.Lifecycle;
 using Dalamud.Interface.Windowing;
 using Dalamud.Plugin.Services;
 using ImGuiNET;
@@ -20,6 +21,7 @@ public sealed class Plugin : IDalamudPlugin
     
     private const string PPComand = "/PP";
     private readonly string? LocPlayerName;
+    public static float DeltaTime => ImGui.GetIO().DeltaTime * 1000;
 
     public Configuration Configuration { get; init; }
 
@@ -58,8 +60,10 @@ public sealed class Plugin : IDalamudPlugin
         // Adds another button that is doing the same but for the main ui of the plugin
         PluginInterface.UiBuilder.OpenMainUi += ToggleMainUI;
 
-        LocPlayerName = Services.ClientState.LocalPlayer!.Name.ToString();
-        
+        if (Services.ClientState.LocalPlayer != null)
+        {
+            LocPlayerName = Services.ClientState.LocalPlayer!.Name.ToString();
+        }
     }
 
     //  Gets Local Players name for Highscore
@@ -100,9 +104,9 @@ public sealed class Plugin : IDalamudPlugin
             Services.CommandManager.RemoveHandler(command);
     }
     
-    public void OnGameEnd(EGame game, int score)
+    public void OnGameEnd(EGame game, int? score, int? time)
     {
-        HighScoreManager.AddHighScore(game, GetPlayerName() ,score);
+        HighScoreManager.AddHighScore(game, GetPlayerName() ,score, time);
     }
     
     public void Dispose()

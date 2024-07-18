@@ -114,7 +114,6 @@ public class PPBoard()
                     currentCard.SwapFaceSide();
                     
                     int[] adjacentIndices = GetAdjacentCardIndices(index);
-                    Services.Log.Information(index.ToString());
                     foreach (int adjacentIndex in adjacentIndices)
                     {
                         Cards[adjacentIndex].SwapFaceSide();

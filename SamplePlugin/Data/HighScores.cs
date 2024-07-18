@@ -7,12 +7,14 @@ using SamplePlugin.Windows;
 public class HighScore
 {
     public string PlayerName { get; set; }
-    public int Score { get; set; }
+    public int? Score { get; set; }
+    public int? Time { get; set; }
 
-    public HighScore(string playerName, int score)
+    public HighScore(string playerName, int? score, int? time)
     {
         PlayerName = playerName;
         Score = score;
+        Time = time;
     }
 }
 
@@ -33,15 +35,15 @@ public class HighScoreManager
         return highScores.TryGetValue(game, out var scores) ? scores : new List<HighScore>();
     }
 
-    public void AddHighScore(EGame game, string playerName, int score)
+    public void AddHighScore(EGame game, string playerName, int? score, int? time)
     {
         if (!highScores.ContainsKey(game))
         {
             highScores[game] = new List<HighScore>();
         }
 
-        highScores[game].Add(new HighScore(playerName, score));
-        highScores[game].Sort((a, b) => b.Score.CompareTo(a.Score)); // Sort by score descending
+        highScores[game].Add(new HighScore(playerName, score, time));
+        // highScores[game].Sort((a, b) => b.Score.CompareTo(a.Score));
         SaveHighScores();
     }
 

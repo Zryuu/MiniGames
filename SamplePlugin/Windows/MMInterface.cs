@@ -10,11 +10,14 @@ namespace SamplePlugin.Windows;
 public class MMInterface : Window, IDisposable
 {
 
+    
     private MMBoard board;
+    private Timer StopWatch;
+    private bool bGameStart = false;
     
     public MMInterface(Plugin plugin): base("Memory Match", ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoScrollWithMouse)
     {
-        
+
         SizeConstraints = new WindowSizeConstraints
         {
             MinimumSize = new Vector2(506, 736),
@@ -22,6 +25,7 @@ public class MMInterface : Window, IDisposable
         };
 
         board = new MMBoard();
+        StopWatch = new Timer();
         InitGame(); 
     }
 
@@ -30,23 +34,45 @@ public class MMInterface : Window, IDisposable
         board.SetBoardSize(EBoardSize.Four);
 
     }
-
-    public void DrawBoard()
-    {
-        for (int i = 0; i < board.cards.Length; i++)
-        {
-            ImGui.ImageButton(board.cards[i].GetTex().GetWrapOrEmpty().ImGuiHandle,
-                              new Vector2(100,100));
-        }
-    }
     
     public void Dispose() { }
 
 
     public override void Draw()
     {
-        board.DrawBoard();
-        //DrawBoard();
+        if (!bGameStart)
+        {
+            ImGui.Text("Board Size");
+            ImGui.Button("4");
+            ImGui.SameLine();
+            ImGui.Button("8");
         
+            ImGui.NewLine();
+        
+            ImGui.Button("12");
+            ImGui.SameLine();
+            ImGui.Button("16");
+            
+            ImGui.SetCursorPos(ImGuiHelpers.ScaledVector2(ImGui.GetWindowWidth() / 2, ImGui.GetWindowHeight() / 2));
+            if (ImGui.Button("START"))
+            {
+                bGameStart = true;
+                StopWatch.Start();
+            }
+        }
+        else
+        {
+            if (ImGui.Button("Reset"))
+            {
+                board.ResetBoard();
+                StopWatch.Reset();
+                bGameStart = false;
+            }
+            
+            ImGui.SetCursorPosX(ImGui.GetWindowWidth() / 2);
+            ImGui.Text(StopWatch.GetElapsedTime());
+        
+            board.DrawBoard();
+        }
     }
 }

@@ -199,7 +199,7 @@ public class PpInterface : Window, IDisposable
             if (ImGui.Button("Restart?"))
             {
                 score = boardsize * 1000;
-                plugin.OnGameEnd(EGame.PuzzlePanel, score);
+                plugin.OnGameEnd(EGame.PuzzlePanel, score, null);
                 InitGame();
             }
         }

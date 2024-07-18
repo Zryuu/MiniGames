@@ -26,6 +26,8 @@ public class MMCard
 {
     public ECardType cardType;
     private ECardFace cardFace;
+    public bool bTypeSet = false;
+    public bool bFlipped = false;
     
     //  Set icons
     private readonly ISharedImmediateTexture blueFace   = Services.TextureProvider.GetFromGameIcon(new GameIconLookup(62115, false, true, null));
@@ -42,7 +44,7 @@ public class MMCard
 
     public MMCard()
     {
-        currentTex = blueFace;
+        currentTex = backSide;
         cardFace = ECardFace.FaceDown;
     }
     
