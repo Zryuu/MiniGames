@@ -19,7 +19,6 @@ public sealed class Plugin : IDalamudPlugin
     
     public HighScoreManager HighScoreManager { get; private set; }
     
-    private const string PPComand = "/PP";
     private readonly string? LocPlayerName;
     public static float DeltaTime => ImGui.GetIO().DeltaTime * 1000;
 
@@ -66,7 +65,7 @@ public sealed class Plugin : IDalamudPlugin
         }
     }
 
-    //  Gets Local Players name for Highscore
+    //  Gets Local Players name for High-score
     public string? GetPlayerName()
     {
         var name = LocPlayerName ?? "Player Name Null";

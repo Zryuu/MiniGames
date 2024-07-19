@@ -40,6 +40,7 @@ public class MMCard
     private readonly ISharedImmediateTexture whiteFace;
     private readonly ISharedImmediateTexture blackFace;
     private readonly ISharedImmediateTexture backSide;
+    private readonly ISharedImmediateTexture matchedOverlay;
     
     private  ISharedImmediateTexture currentTex;
 
@@ -47,17 +48,21 @@ public class MMCard
     {
         
         
+        //  Find good textures for this
+        blueFace       = Services.TextureProvider.GetFromGameIcon(new GameIconLookup(060501, false, true, null));
+        redFace        = Services.TextureProvider.GetFromGameIcon(new GameIconLookup(060501, false, true, null));
+        greenFace      = Services.TextureProvider.GetFromGameIcon(new GameIconLookup(060501, false, true, null));
+        yellowFace     = Services.TextureProvider.GetFromGameIcon(new GameIconLookup(060501, false, true, null));
+        purpleFace     = Services.TextureProvider.GetFromGameIcon(new GameIconLookup(060501, false, true, null));
+        orangeFace     = Services.TextureProvider.GetFromGameIcon(new GameIconLookup(060501, false, true, null));
+        whiteFace      = Services.TextureProvider.GetFromGameIcon(new GameIconLookup(060501, false, true, null));
+        blackFace      = Services.TextureProvider.GetFromGameIcon(new GameIconLookup(060501, false, true, null));
+       
+        //  Backside texture
+        backSide       = Services.TextureProvider.GetFromGameIcon(new GameIconLookup(060958, false, true, null));
         
-        blueFace   = Services.TextureProvider.GetFromGameIcon(new GameIconLookup(060501, false, true, null));
-        redFace    = Services.TextureProvider.GetFromGameIcon(new GameIconLookup(060501, false, true, null));
-        greenFace  = Services.TextureProvider.GetFromGameIcon(new GameIconLookup(060501, false, true, null));
-        yellowFace = Services.TextureProvider.GetFromGameIcon(new GameIconLookup(060501, false, true, null));
-        purpleFace = Services.TextureProvider.GetFromGameIcon(new GameIconLookup(060501, false, true, null));
-        orangeFace = Services.TextureProvider.GetFromGameIcon(new GameIconLookup(060501, false, true, null));
-        whiteFace  = Services.TextureProvider.GetFromGameIcon(new GameIconLookup(060501, false, true, null));
-        blackFace  = Services.TextureProvider.GetFromGameIcon(new GameIconLookup(060501, false, true, null));
-        backSide   = Services.TextureProvider.GetFromGameIcon(new GameIconLookup(060958, false, true, null));
-            
+        //  Texture overlay to show cards were matched.....maybe grab the checkmark overlay used for items/character menu.
+        matchedOverlay = Services.TextureProvider.GetFromGameIcon(new GameIconLookup(060958, false, true, null));
             
         currentTex = backSide;
         cardFace = ECardFace.FaceDown;

@@ -13,7 +13,7 @@ public class MMInterface : Window, IDisposable
     
     private MMBoard board;
     private Timer StopWatch;
-    private bool bGameStart = false;
+    private bool bGameStart;
     
     public MMInterface(Plugin plugin): base("Memory Match", ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoScrollWithMouse)
     {
