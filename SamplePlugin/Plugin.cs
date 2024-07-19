@@ -82,15 +82,21 @@ public sealed class Plugin : IDalamudPlugin
     //  Init Commands
     private void InitializeCommands()
     {
-        _commands["/MGM"] = new CommandInfo(MenuCI)
+        _commands[MenuCommand] = new CommandInfo(MenuCI)
         {
-            HelpMessage = "Use to open the MiniGame Menu.",
+            HelpMessage = "Use to open the MiniGame menu.",
             ShowInHelp = true,
                 
         };
-        _commands["/PP"] = new CommandInfo(PPCI)
+        _commands[PuzzlePanel] = new CommandInfo(PPCI)
         {
-            HelpMessage = "Use to open the MiniGame Menu.",
+            HelpMessage = "Use to open the Puzzle Panel game.",
+            ShowInHelp = true,
+                
+        };
+        _commands[MemoryMatch] = new CommandInfo(MMCI)
+        {
+            HelpMessage = "Use to open the Memory Match game.",
             ShowInHelp = true,
                 
         };
@@ -115,8 +121,6 @@ public sealed class Plugin : IDalamudPlugin
         ConfigWindow.Dispose();
         Interface.Dispose();
         DisposeCommands();
-        
-        
     }
 
 /*    

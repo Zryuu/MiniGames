@@ -37,21 +37,41 @@ public class MMInterface : Window, IDisposable
     
     public void Dispose() { }
 
-
+//  This is the ugly-ist shit i've ever seen and almost the ugly-ist shit I've ever written.
     public override void Draw()
     {
         if (!bGameStart)
         {
             ImGui.Text("Board Size");
-            ImGui.Button("4");
+            if (ImGui.Button("4"))
+            {
+                board.cardCount = EBoardSize.Four;
+                
+            }
+            
             ImGui.SameLine();
-            ImGui.Button("8");
+            
+            if (ImGui.Button("8"))
+            {
+                board.cardCount = EBoardSize.Eight;
+                board.ResetBoard();
+            }
         
             ImGui.NewLine();
-        
-            ImGui.Button("12");
+
+            if (ImGui.Button("12"))
+            { 
+                board.cardCount = EBoardSize.Twelve;
+                board.ResetBoard();
+            }
+            
             ImGui.SameLine();
-            ImGui.Button("16");
+            
+            if (ImGui.Button("16"))
+            { 
+                board.cardCount = EBoardSize.Sixteen;
+                board.ResetBoard();
+            }
             
             ImGui.SetCursorPos(ImGuiHelpers.ScaledVector2(ImGui.GetWindowWidth() / 2, ImGui.GetWindowHeight() / 2));
             if (ImGui.Button("START"))

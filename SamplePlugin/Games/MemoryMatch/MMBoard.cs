@@ -5,6 +5,7 @@ using Dalamud.Interface.Utility;
 using FFXIVClientStructs.FFXIV.Common.Lua;
 using ImGuiNET;
 using Lumina.Excel.GeneratedSheets;
+using SamplePlugin.Games.PuzzlePanel;
 
 namespace SamplePlugin.Games.MemoryMatch;
 
@@ -21,7 +22,7 @@ public class MMBoard
     public int boardSize, width, cardChance, CardAmount, Rand, Rand2;
     private readonly int height = 2;
     private uint soundindex;
-    private EBoardSize cardCount;
+    public EBoardSize cardCount;
     private int[] cardTypes;
 
     public MMCard[] cards;
@@ -29,9 +30,7 @@ public class MMBoard
 
     public MMBoard()
     {
-        cardCount = EBoardSize.Twelve;
-        SetBoardSize(cardCount);
-        
+        SetBoardSize(EBoardSize.Four);
         cards = new MMCard[boardSize];
         width = boardSize / 2;
         
@@ -43,11 +42,6 @@ public class MMBoard
     {
         SetBoardSize(cardCount);
         CreateBoard();
-
-        for (int i = 0; i < cardTypes.Length; i++)
-        {
-            //cardTypes[i] = 0;
-        }
         
         SetRandomCardType();
     }
@@ -81,8 +75,8 @@ public class MMBoard
             {
                 int index = (row * width) + column;
                 cards[index] = new MMCard
-                {
-                    bTypeSet = false
+               {
+                   bTypeSet = false
                 };
             }
         }
@@ -161,6 +155,7 @@ public class MMBoard
         {
             var value = card.value;
             var index = card.i;
+            
             float xPos = (ImGui.GetWindowWidth() / 2 - (2 * 100)) + ((index % CardAmount) * (100 + 10));
             float yPos = (ImGui.GetWindowHeight() / 2) + ((index / CardAmount) * (100 + 10));
                     
@@ -172,5 +167,7 @@ public class MMBoard
                 value.bFlipped = true;
             }
         }
+
+        Services.Log.Information(cards.Length.ToString());
     }
 }
