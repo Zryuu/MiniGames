@@ -100,6 +100,25 @@ public class MMBoard
         return isDone;
     }
 
+    //  Checks if any card has flipped bool set to true, then checks if type matches, returns true if so.
+    private bool CheckIfMatchingCard(MMCard clickedCard)
+    {
+        foreach (var card in cards)
+        {
+            if (!card.bFlipped)
+            {
+                continue;
+            }
+            
+
+            if (card.cardType == clickedCard.cardType)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    
     //  Randomize Card Types.
     public void SetRandomCardType()
     {
@@ -170,8 +189,21 @@ public class MMBoard
             ImGui.PushID(index);
             if (ImGui.ImageButton(value.GetTex().GetWrapOrEmpty().ImGuiHandle, new Vector2(100, 100)))
             {
+                
+                //  Play flip animation.
+                
                 value.SwapFace();
                 value.bFlipped = true;
+                
+                if (CheckIfMatchingCard(value))
+                {
+                    //  Do matched BS (Lock cards, add matched overlay tex.)
+                }
+                
+                //  Wait X seconds
+                //  Play flip animation again.
+                
+                
             }
         }
     }
