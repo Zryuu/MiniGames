@@ -19,7 +19,7 @@ public enum EBoardSize
 
 public class MMBoard
 {
-    public int boardSize, width, cardChance, CardAmount, Rand, Rand2;
+    public int boardSize, width, CardAmount, Rand;
     private readonly int height = 2;
     private uint soundindex;
     public EBoardSize cardCount;
@@ -42,6 +42,12 @@ public class MMBoard
     {
         SetBoardSize(cardCount);
         CreateBoard();
+
+        //  Inits cardTypes array.
+        foreach (var type in cardTypes)
+        {
+            cardTypes[type] = 0;
+        }
         
         SetRandomCardType();
     }
@@ -156,6 +162,7 @@ public class MMBoard
             var value = card.value;
             var index = card.i;
             
+            //  This needs to be reworked.
             float xPos = (ImGui.GetWindowWidth() / 2 - (2 * 100)) + ((index % CardAmount) * (100 + 10));
             float yPos = (ImGui.GetWindowHeight() / 2) + ((index / CardAmount) * (100 + 10));
                     
@@ -167,7 +174,5 @@ public class MMBoard
                 value.bFlipped = true;
             }
         }
-
-        Services.Log.Information(cards.Length.ToString());
     }
 }

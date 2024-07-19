@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="fa5e9d35-3162-4ea5-83a6-bdd4c78cade7" name="locrepo" url="http://localhost">
+        <fileTransfer mountedRoot="C:\Users\Liam\Documents\Dalamud\repo" accessType="MOUNT" port="0" />
+      </webServer>
+    </option>
+  </component>
+</project>
