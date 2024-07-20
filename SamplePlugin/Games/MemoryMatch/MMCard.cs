@@ -41,6 +41,7 @@ public class MMCard
     private readonly ISharedImmediateTexture blackFace;
     private readonly ISharedImmediateTexture backSide;
     private readonly ISharedImmediateTexture matchedOverlay;
+    private readonly ISharedImmediateTexture currentFlippedOverlay;
     
     private  ISharedImmediateTexture currentTex;
 
@@ -62,7 +63,8 @@ public class MMCard
         backSide       = Services.TextureProvider.GetFromGameIcon(new GameIconLookup(060958, false, true, null));
         
         //  Texture overlay to show cards were matched.....maybe grab the checkmark overlay used for items/character menu.
-        matchedOverlay = Services.TextureProvider.GetFromGameIcon(new GameIconLookup(060958, false, true, null));
+        matchedOverlay = Services.TextureProvider.GetFromGameIcon(new GameIconLookup(060957, false, true, null));
+        currentFlippedOverlay = Services.TextureProvider.GetFromGameIcon(new GameIconLookup(060959, false, true, null));
             
         currentTex = backSide;
         cardFace = ECardFace.FaceDown;
@@ -80,7 +82,6 @@ public class MMCard
             ECardType.Orange  => orangeFace,
             ECardType.White  => whiteFace,
             ECardType.Black  => blackFace,
-            
             _ => backSide
         };
     }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using Dalamud.Interface.Utility;
@@ -22,10 +23,12 @@ public class MMBoard
     public int boardSize, width, CardAmount, Rand;
     private readonly int height = 2;
     private uint soundindex;
-    public EBoardSize cardCount;
     private int[] cardTypes;
+    private List<MMCard> flippedCards = new List<MMCard>();
 
-    public MMCard[] cards;
+    public EBoardSize cardCount;
+    public MMCard[] cards;  //  Prob change this to a list.
+    
 
 
     public MMBoard()
@@ -100,23 +103,24 @@ public class MMBoard
         return isDone;
     }
 
-    //  Checks if any card has flipped bool set to true, then checks if type matches, returns true if so.
-    private bool CheckIfMatchingCard(MMCard clickedCard)
+    private bool CheckIfAnotherFlippedCard()
     {
-        foreach (var card in cards)
-        {
-            if (!card.bFlipped)
-            {
-                continue;
-            }
-            
+        var flippedCardsCount = flippedCards.Count;
 
-            if (card.cardType == clickedCard.cardType)
-            {
-                return true;
-            }
+        return flippedCardsCount >= 1;
+    }
+    
+    //  Checks if any card has flipped bool set to true, then checks if type matches, returns true if so.
+    private bool CheckIfMatchingCard()
+    {
+        if (flippedCards.Count < 2)
+        {
+            Services.Log.Information(
+                "[ERROR]: MMBoard::CheckIfMatchingCard::" +
+                                "CheckIfMatchingCard() ran with less than two cards");
         }
-        return false;
+        
+        return flippedCards[0].cardType == flippedCards[1].cardType;
     }
     
     //  Randomize Card Types.
@@ -194,11 +198,28 @@ public class MMBoard
                 
                 value.SwapFace();
                 value.bFlipped = true;
-                
-                if (CheckIfMatchingCard(value))
+                flippedCards.Add(value);
+
+                if (CheckIfAnotherFlippedCard())
                 {
-                    //  Do matched BS (Lock cards, add matched overlay tex.)
+                    if (CheckIfMatchingCard())
+                    {
+                        //  Do matched BS (Lock cards, add matched overlay tex.)
+                        
+                        flippedCards.Clear();
+                    }
+                    
+                    
                 }
+                else
+                {
+                   
+                    //  Current Flipped Card Overlay (the yellow lines tex maybe?)
+                    
+                }
+
+                
+                
                 
                 //  Wait X seconds
                 //  Play flip animation again.
