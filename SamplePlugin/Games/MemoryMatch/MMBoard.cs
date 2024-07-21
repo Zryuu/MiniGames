@@ -30,7 +30,7 @@ public class MMBoard
     public MMCard[] cards;  //  Prob change this to a list.
     
 
-
+    // Constructor
     public MMBoard()
     {
         SetBoardSize(EBoardSize.Four);
@@ -105,9 +105,7 @@ public class MMBoard
 
     private bool CheckIfAnotherFlippedCard()
     {
-        var flippedCardsCount = flippedCards.Count;
-
-        return flippedCardsCount >= 1;
+        return flippedCards.Count >= 1;
     }
     
     //  Checks if any card has flipped bool set to true, then checks if type matches, returns true if so.
@@ -205,20 +203,22 @@ public class MMBoard
                     if (CheckIfMatchingCard())
                     {
                         //  Do matched BS (Lock cards, add matched overlay tex.)
+                        Services.Log.Information("Card1: " +flippedCards[0].cardType.ToString());
+                        Services.Log.Information("Card2: " +flippedCards[1].cardType.ToString());
                         
                         flippedCards.Clear();
                     }
-                    
+
+                    //  If this part gets run then the cards didn't match.
                     
                 }
                 else
                 {
                    
                     //  Current Flipped Card Overlay (the yellow lines tex maybe?)
-                    
+                    Services.Log.Information("Card " + flippedCards.First() + "flipped.");
                 }
 
-                
                 
                 
                 //  Wait X seconds
